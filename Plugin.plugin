@@ -1,0 +1,17 @@
+#!name=BOC 域名映射 (Map Remote)
+#!desc=将 boc.inke.cn 和 testqaboc.inke.cn 下的请求重写到指定域名，实现类似 Charles Map Remote 的功能
+#!author=topit
+#!homepage=https://github.com/topit/loon-plugin-mapremote
+#!icon=https://raw.githubusercontent.com/niconiemi/loon-plugins/main/icons/map-remote.png
+#!system=ios
+#!loon_version=3.2.1(730)
+
+[Argument]
+enable_plugin = switch,true,tag=启用映射,desc=总开关，控制域名映射是否生效
+target_domain = input,"",tag=目标域名,desc=将请求映射到此域名（例如：192.168.1.100:8080 或 dev.example.com），留空则不生效
+
+[Script]
+http-request ^https?://(boc\.inke\.cn|testqaboc\.inke\.cn)(.*) script-path=https://raw.githubusercontent.com/topit/loon-plugin-mapremote/main/map_remote.js,tag=域名映射,argument=[{target_domain}],enable={enable_plugin}
+
+[MITM]
+hostname = boc.inke.cn,testqaboc.inke.cn
